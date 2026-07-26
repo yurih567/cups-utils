@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: cups-printer/go.mod
+          cache-dependency-path: |
+            cups-printer/go.sum
+            cups-template/go.sum
+
+      - name: Build binaries
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          LDFLAGS="-s -w -X main.version=${VERSION}"
+          platforms=(
+            linux/amd64
+            linux/arm64
+            darwin/amd64
+            darwin/arm64
+            windows/amd64
+            windows/arm64
+          )
+          for platform in "${platforms[@]}"; do
+            os="${platform%/*}"
+            arch="${platform#*/}"
+            ext=""
+            if [ "$os" = "windows" ]; then
+              ext=".exe"
+            fi
+            out="dist/cups-print-${os}-${arch}${ext}"
+            echo "→ ${out}"
+            CGO_ENABLED=0 GOOS="$os" GOARCH="$arch" \
+              go build -C cups-printer -trimpath -ldflags="$LDFLAGS" \
+              -o "$(pwd)/${out}" ./cmd/print
+          done
+          ls -lh dist/
+
+      - name: Create checksums
+        working-directory: dist
+        run: |
+          sha256sum cups-print-* > checksums.txt
+          cat checksums.txt
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/cups-print-linux-amd64
+            dist/cups-print-linux-arm64
+            dist/cups-print-darwin-amd64
+            dist/cups-print-darwin-arm64
+            dist/cups-print-windows-amd64.exe
+            dist/cups-print-windows-arm64.exe
+            dist/checksums.txt

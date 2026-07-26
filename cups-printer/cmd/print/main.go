@@ -13,6 +13,9 @@ import (
 	"cups-printer/printer"
 )
 
+// Set at build time: -ldflags "-X main.version=v1.0.0"
+var version = "dev"
+
 func main() {
 	flag.Usage = printUsage
 
@@ -61,6 +64,7 @@ func main() {
 
 func printUsage() {
 	name := filepath.Base(os.Args[0])
+	fmt.Fprintf(os.Stderr, "cups-print %s\n\n", version)
 	fmt.Fprintf(os.Stderr, "How to use:\n")
 	fmt.Fprintf(os.Stderr, "  %s \\\n", name)
 	fmt.Fprintf(os.Stderr, "    -template receipt.xml \\\n")

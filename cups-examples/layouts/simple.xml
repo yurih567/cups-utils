@@ -1,0 +1,32 @@
+<Page width="80mm" padding="4">
+  <Column gap="2" align="center">
+
+    <Text align="center" size="18" weight="bold">Grand Chef Burger</Text>
+    <Text align="center" size="12">Pedido #1001</Text>
+    <Text align="center" size="11" color="#666666">26/07/2026 12:15</Text>
+
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="12">X-Burguer</Text>
+      <Text size="12" align="right">29,90</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="12">Refrigerante Lata</Text>
+      <Text size="12" align="right">8,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Total</Text>
+      <Text size="14" weight="bold" align="right">37,90</Text>
+    </Row>
+
+    <Spacer height="6"/>
+
+    <Text align="center" size="11">NÃO É DOCUMENTO FISCAL</Text>
+    <Divider char="="/>
+
+  </Column>
+</Page>
