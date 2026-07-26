@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="144" viewBox="0 0 360 144">
+  <rect width="360" height="144" fill="#000000"/>
+  <g fill="none" stroke="#FF6600" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 46c12-10 28-10 40 0 6-16 24-24 40-14 4 2 7 6 9 10 18 2 30 16 30 34 0 22-18 40-46 40H86c-24 0-40-16-40-36 0-18 14-32 32-34z"/>
+    <ellipse cx="108" cy="78" rx="5" ry="8" fill="#FF6600" stroke="none"/>
+    <ellipse cx="136" cy="78" rx="5" ry="8" fill="#FF6600" stroke="none"/>
+    <path d="M112 34c0-14 10-24 24-24s22 8 24 20"/>
+    <path d="M100 38c8-6 18-8 28-6"/>
+  </g>
+  <text x="210" y="64" fill="#FF6600" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="600">grand</text>
+  <text x="210" y="108" fill="#FF6600" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700">Chef</text>
+</svg>

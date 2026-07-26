@@ -1,0 +1,91 @@
+package main
+
+import (
+	"context"
+	"flag"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"cups-printer/job"
+	"cups-printer/printer"
+)
+
+func main() {
+	flag.Usage = printUsage
+
+	templatePath := flag.String("template", "-", "XML template path, or - for stdin")
+	model := flag.String("model", "generic", "printer model (cups-drivers id)")
+	dest := flag.String("dest", "", "destination: cups:Name | tcp://ip:9100 | file:/dev/usb/lp0 | stdout")
+	beep := flag.Int("beep", 0, "beep times (0 = off)")
+	drawer := flag.Bool("drawer", false, "open cash drawer")
+	drawerPin := flag.Int("drawer-pin", 0, "drawer pin (epson: 0 or 1)")
+	cut := flag.Bool("cut", true, "cut paper after print")
+	partialCut := flag.Bool("partial-cut", false, "use partial cut when cutting")
+	feed := flag.Int("feed", 3, "feed lines before cut")
+	assets := flag.String("assets", "", "assets base path for relative image src")
+	flag.Parse()
+
+	if len(os.Args) == 1 {
+		printUsage()
+		os.Exit(0)
+	}
+
+	if strings.TrimSpace(*dest) == "" {
+		fmt.Fprintln(os.Stderr, "error: -dest is required")
+		fmt.Fprintln(os.Stderr)
+		printUsage()
+		os.Exit(1)
+	}
+
+	xml, err := readTemplate(*templatePath)
+	must(err)
+
+	err = printer.Print(context.Background(), job.Job{
+		XML:        xml,
+		Model:      *model,
+		Dest:       *dest,
+		Beep:       *beep,
+		Drawer:     *drawer,
+		DrawerPin:  *drawerPin,
+		Cut:        *cut,
+		PartialCut: *partialCut,
+		Feed:       *feed,
+		Assets:     *assets,
+		DPI:        203,
+	})
+	must(err)
+}
+
+func printUsage() {
+	name := filepath.Base(os.Args[0])
+	fmt.Fprintf(os.Stderr, "How to use:\n")
+	fmt.Fprintf(os.Stderr, "  %s \\\n", name)
+	fmt.Fprintf(os.Stderr, "    -template receipt.xml \\\n")
+	fmt.Fprintf(os.Stderr, "    -model generic \\\n")
+	fmt.Fprintf(os.Stderr, "    -dest 'tcp://192.168.10.12:9100' \\\n")
+	fmt.Fprintf(os.Stderr, "    -assets ./assets \\\n")
+	fmt.Fprintf(os.Stderr, "    -beep 1 \\\n")
+	fmt.Fprintf(os.Stderr, "    -drawer\n")
+	fmt.Fprintln(os.Stderr)
+	fmt.Fprintf(os.Stderr, "  cat receipt.xml | %s -template - -dest 'cups:MinhaImpressora'\n", name)
+	fmt.Fprintln(os.Stderr)
+	fmt.Fprintf(os.Stderr, "Flags:\n")
+	flag.PrintDefaults()
+}
+
+func readTemplate(path string) ([]byte, error) {
+	if path == "-" {
+		return io.ReadAll(os.Stdin)
+	}
+	return os.ReadFile(path)
+}
+
+func must(err error) {
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
