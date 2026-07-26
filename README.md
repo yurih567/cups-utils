@@ -226,7 +226,3 @@ cd cups-printer && make build
 - [cups-drivers](cups-drivers/README.md) — modelos e novos drivers  
 - [cups-printer](cups-printer/README.md) — CLI, destinos, biblioteca Go  
 - [cups-examples](cups-examples/README.md) — layouts, Node, `.env`, Makefile  
-
-## Licença
-
-Consulte os arquivos de licença das fontes em [`cups-template/fonts/LICENSE.txt`](cups-template/fonts/LICENSE.txt) (Inter). O restante do repositório segue a licença que você definir para o projeto.
