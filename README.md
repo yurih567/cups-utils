@@ -201,10 +201,59 @@ git push origin v1.0.0
 
 Artefatos publicados:
 
-- `cups-print-linux-amd64` / `linux-arm64`
-- `cups-print-darwin-amd64` / `darwin-arm64`
-- `cups-print-windows-amd64.exe` / `windows-arm64.exe`
-- `checksums.txt` (SHA-256)
+| Arquivo | Plataforma |
+|---------|------------|
+| `cups-print-linux-amd64` | Linux x86_64 |
+| `cups-print-linux-arm64` | Linux ARM64 |
+| `cups-print-darwin-amd64` | macOS Intel |
+| `cups-print-darwin-arm64` | macOS Apple Silicon |
+| `cups-print-windows-amd64.exe` | Windows x64 |
+| `cups-print-windows-arm64.exe` | Windows ARM |
+| `checksums.txt` | SHA-256 de todos |
+
+Página: [Releases](https://github.com/yurih567/cups-utils/releases)
+
+### Usar o binário da Release
+
+Baixe o arquivo da sua plataforma na Release e coloque junto do XML (e da pasta `assets`, se o layout usar imagens).
+
+**Linux / macOS**
+
+```bash
+chmod +x cups-print-linux-amd64   # ou darwin-arm64, etc.
+
+./cups-print-linux-amd64 \
+  -template cupom.xml \
+  -assets ./assets \
+  -model bematech \
+  -dest 192.168.18.133
+```
+
+Stdin:
+
+```bash
+cat cupom.xml | ./cups-print-linux-amd64 -template - -model bematech -dest 192.168.18.133
+```
+
+**Windows (cmd / PowerShell)**
+
+```bat
+cups-print-windows-amd64.exe -template cupom.xml -assets .\assets -model bematech -dest 192.168.18.133
+```
+
+**Com Node** (após baixar o binário):
+
+```bash
+export CUPS_PRINT_BIN=./cups-print-linux-amd64
+node js/print-tcp.js simple
+```
+
+No Windows:
+
+```bat
+set CUPS_PRINT_BIN=cups-print-windows-amd64.exe
+node js\print-tcp.js simple
+```
 
 Workflow: [`.github/workflows/release.yml`](.github/workflows/release.yml)
 
