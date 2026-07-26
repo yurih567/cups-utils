@@ -1,0 +1,34 @@
+<Page width="80mm" padding="4">
+  <Column gap="2" align="center">
+
+    <Image src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTIwIDEyMCI+CiAgPHJlY3QgeD0iOCIgeT0iOCIgd2lkdGg9IjEwNCIgaGVpZ2h0PSIxMDQiIHJ4PSIxNiIgZmlsbD0iIzExMTExMSIvPgogIDxjaXJjbGUgY3g9IjYwIiBjeT0iNTIiIHI9IjIyIiBmaWxsPSIjRkZGRkZGIi8+CiAgPHJlY3QgeD0iMzQiIHk9Ijc4IiB3aWR0aD0iNTIiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjRkZGRkZGIi8+CiAgPHRleHQgeD0iNjAiIHk9IjU4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxMTExMTEiPkVUPC90ZXh0Pgo8L3N2Zz4K" width="72" height="72" align="center"/>
+
+    <Text align="center" size="18" weight="bold">Demo Burger</Text>
+    <Text align="center" size="12">Logo via data:base64 (sem assets)</Text>
+    <Text align="center" size="11" color="#666666">26/07/2026 12:45</Text>
+
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="12">Combo Demo</Text>
+      <Text size="12" align="right">45,90</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="12">Suco Natural</Text>
+      <Text size="12" align="right">12,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Total</Text>
+      <Text size="14" weight="bold" align="right">57,90</Text>
+    </Row>
+
+    <Spacer height="6"/>
+
+    <Text align="center" size="11">NÃO É DOCUMENTO FISCAL</Text>
+    <Divider char="="/>
+
+  </Column>
+</Page>

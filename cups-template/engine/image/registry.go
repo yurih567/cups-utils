@@ -143,7 +143,7 @@ func (r *Registry) Decode(ext string, reader io.Reader) (image.Image, error) {
 }
 
 func DefaultRegistry() *Registry {
-	return NewRegistry(SVGDecoder{}, WebPDecoder{})
+	return NewRegistry(StdDecoder{}, SVGDecoder{}, WebPDecoder{})
 }
 
 func isRemoteURL(src string) bool {
@@ -169,6 +169,12 @@ func extensionFromContentType(ct string) string {
 		return "svg"
 	case "image/webp":
 		return "webp"
+	case "image/png":
+		return "png"
+	case "image/jpeg":
+		return "jpg"
+	case "image/gif":
+		return "gif"
 	default:
 		return ""
 	}

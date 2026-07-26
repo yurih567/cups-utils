@@ -15,9 +15,13 @@ O Node **não** renderiza o cupom — ele chama os binários Go:
 cups-examples/
 ├── assets/           # imagens usadas pelos layouts
 ├── layouts/
-│   ├── receipt.xml   # fechamento de pedido
-│   ├── delivery.xml  # relatório para entrega
-│   └── demo.xml # cupom simples
+│   ├── receipt.xml
+│   ├── delivery.xml
+│   ├── demo.xml
+│   ├── simple.xml
+│   ├── datauri-svg-base64.xml
+│   ├── datauri-svg.xml
+│   └── datauri-png-base64.xml
 ├── js/
 │   ├── cups.js           # helpers (spawn dos binários)
 │   ├── render-png.js     # gera PNG a partir de um layout
@@ -64,7 +68,11 @@ Os scripts JS usam `bin/cups-print` automaticamente (ou `go run` se ainda não e
 |---------|-----|
 | `layouts/receipt.xml` | Fechamento de pedido (mesa / senha) |
 | `layouts/delivery.xml` | Relatório para entrega (endereço / telefone) |
-| `layouts/demo.xml` | Exemplo mínimo |
+| `layouts/demo.xml` | Exemplo mínimo com logo em arquivo |
+| `layouts/simple.xml` | Curto, sem imagem |
+| `layouts/datauri-svg-base64.xml` | Logo SVG embutido (`data:image/svg+xml;base64,...`) — sem `assets` |
+| `layouts/datauri-svg.xml` | Logo SVG embutido (`data:image/svg+xml,...` URL-encoded) — sem `assets` |
+| `layouts/datauri-png-base64.xml` | Logo PNG embutido (`data:image/png;base64,...`) — sem `assets` |
 
 ## JavaScript
 

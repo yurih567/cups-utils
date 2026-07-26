@@ -20,7 +20,24 @@ func TestDecodeDataURIBase64SVG(t *testing.T) {
 	}
 }
 
-func TestDecodeFileStillWorks(t *testing.T) {
+func TestDecodeDataURIBase64PNG(t *testing.T) {
+	// 1x1 black PNG
+	raw, err := base64.StdEncoding.DecodeString(
+		"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	src := "data:image/png;base64," + base64.StdEncoding.EncodeToString(raw)
+	img, err := DefaultRegistry().DecodeSource(src, "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if img.Bounds().Dx() != 1 || img.Bounds().Dy() != 1 {
+		t.Fatalf("unexpected bounds: %v", img.Bounds())
+	}
+}
+
 	root := findModuleRoot(t)
 	path := filepath.Join(root, "assets", "logo.svg")
 	if _, err := os.Stat(path); err != nil {

@@ -35,7 +35,7 @@ Em produção, o binário **`cups-print`** já embute template + drivers + trans
 4. O bitmap vira comandos `GS v 0` (raster) + feed/cut/beep/gaveta do modelo escolhido.
 5. O payload vai por TCP `:9100`, fila CUPS raw, arquivo/device ou stdout.
 
-Imagens no XML podem ser arquivo relativo (`-assets`), URL ou `data:image/...;base64,...` (inclui SVG).
+Imagens no XML: arquivo relativo (`-assets`), URL `http(s)`, ou **`data:` embutido no XML** (recomendado em produção — sem pasta assets). Detalhes na seção [Exemplos de layout](#exemplos-de-layout-tipos-de-cupom).
 
 ## Requisitos
 
@@ -139,26 +139,159 @@ Novos modelos: veja [`cups-drivers/README.md`](cups-drivers/README.md).
 | `-template` | `-` (stdin) | Caminho do XML |
 | `-dest` | obrigatório | Identificador da impressora |
 | `-model` | `generic` | Driver |
-| `-assets` | vazio | Base path de imagens relativas |
+| `-assets` | vazio | Base path **só** para imagens com caminho relativo de arquivo |
 | `-cut` | `true` | Cortar ao final |
 | `-feed` | `3` | Linhas antes do corte |
 | `-beep` | `0` | Apitos |
 | `-drawer` | `false` | Abrir gaveta |
 
-## Templates XML
+## Exemplos de layout (tipos de cupom)
 
-Componentes: `Page`, `Column`, `Row`, `Text`, `Image`, `Divider`, `Spacer`, `QRCode`, `Barcode`.
+Todos ficam em [`cups-examples/layouts/`](cups-examples/layouts/). Componentes XML: `Page`, `Column`, `Row`, `Text`, `Image`, `Divider`, `Spacer`, `QRCode`, `Barcode`.
 
-Exemplos em [`cups-examples/layouts/`](cups-examples/layouts/):
+### Resumo
 
-| Layout | Descrição |
-|--------|-----------|
-| `simple.xml` | Curto, sem imagem (não precisa de `-assets`) |
-| `demo.xml` | Cupom simples com logo |
-| `receipt.xml` | Fechamento de pedido |
-| `delivery.xml` | Relatório para entrega |
+| Layout | Precisa de `-assets`? | O que demonstra |
+|--------|------------------------|-----------------|
+| `simple.xml` | Não | Cupom curto, só texto |
+| `datauri-svg-base64.xml` | Não | Logo embutido em `data:…;base64` (SVG) |
+| `datauri-svg.xml` | Não | Logo embutido em `data:` SVG URL-encoded |
+| `datauri-png-base64.xml` | Não | Logo embutido em `data:…;base64` (PNG) |
+| `demo.xml` | **Sim** | Logo como arquivo (`logo.svg` na pasta assets) |
+| `receipt.xml` | **Sim** | Fechamento de pedido (mesa, senha, totais) |
+| `delivery.xml` | **Sim** | Relatório para entrega (endereço, telefone) |
 
-Referência completa do motor: [`cups-template/README.md`](cups-template/README.md).
+### 1. Sem imagem — `simple.xml`
+
+Texto puro. Não use `-assets`.
+
+```bash
+./cups-examples/bin/cups-print \
+  -template ./cups-examples/layouts/simple.xml \
+  -model bematech \
+  -dest 192.168.18.133 \
+  -cut
+```
+
+### 2. Com imagem **sem** pasta assets (`data:` URI)
+
+A imagem vai **dentro do XML**, no atributo `src` do `<Image>`.  
+Nesse caso **não passe `-assets`** — não há arquivo externo.
+
+Formatos aceitos no `data:`:
+
+| Forma | Exemplo de `src` |
+|-------|------------------|
+| SVG em Base64 | `data:image/svg+xml;base64,PHN2Zy...` |
+| SVG URL-encoded | `data:image/svg+xml,%3Csvg%20xmlns%3D...` |
+| PNG em Base64 | `data:image/png;base64,iVBORw0KGgo...` |
+| JPEG em Base64 | `data:image/jpeg;base64,/9j/4AAQ...` |
+
+Trecho de XML:
+
+```xml
+<Image
+  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLi4u"
+  width="72"
+  height="72"
+  align="center"/>
+```
+
+Gerar o Base64 a partir de um arquivo:
+
+```bash
+# macOS
+base64 -i logo.svg | tr -d '\n'
+
+# Linux
+base64 -w0 logo.svg
+```
+
+Depois monte: `data:image/svg+xml;base64,` + o resultado (ou `data:image/png;base64,` para PNG).
+
+Layouts prontos para testar (já com o logo do projeto embutido):
+
+```bash
+BIN=./cups-examples/bin/cups-print
+DEST=192.168.18.133   # ajuste o IP
+MODEL=bematech
+
+# SVG Base64 — sem -assets
+$BIN -template ./cups-examples/layouts/datauri-svg-base64.xml \
+  -model "$MODEL" -dest "$DEST" -cut
+
+# SVG URL-encoded — sem -assets
+$BIN -template ./cups-examples/layouts/datauri-svg.xml \
+  -model "$MODEL" -dest "$DEST" -cut
+
+# PNG Base64 — sem -assets
+$BIN -template ./cups-examples/layouts/datauri-png-base64.xml \
+  -model "$MODEL" -dest "$DEST" -cut
+```
+
+Preview PNG:
+
+```bash
+cd cups-examples
+node js/render-png.js datauri-svg-base64
+node js/render-png.js datauri-png-base64
+```
+
+**Produção:** o app gera o XML com o `data:` já preenchido (logo do cliente em Base64) e envia o XML inteiro no stdin do `cups-print`. Nenhuma pasta de imagens precisa ir junto do binário.
+
+### 3. Com imagem em arquivo — `-assets`
+
+Use quando o XML aponta para um arquivo relativo, por exemplo `src="logo.svg"`.
+
+```xml
+<Image src="logo.svg" width="72" height="72" align="center"/>
+```
+
+Aí `-assets` é a pasta onde esse arquivo está:
+
+```bash
+./cups-examples/bin/cups-print \
+  -template ./cups-examples/layouts/demo.xml \
+  -assets ./cups-examples/assets \
+  -model bematech \
+  -dest 192.168.18.133 \
+  -cut
+```
+
+Também com assets:
+
+```bash
+# Fechamento de pedido
+./cups-examples/bin/cups-print \
+  -template ./cups-examples/layouts/receipt.xml \
+  -assets ./cups-examples/assets \
+  -model bematech -dest 192.168.18.133 -cut
+
+# Relatório para entrega
+./cups-examples/bin/cups-print \
+  -template ./cups-examples/layouts/delivery.xml \
+  -assets ./cups-examples/assets \
+  -model bematech -dest 192.168.18.133 -cut
+```
+
+### 4. URL remota (opcional)
+
+```xml
+<Image src="https://exemplo.com/logo.svg" width="72" height="72"/>
+```
+
+Precisa de rede no momento da impressão. Em produção, prefira `data:` Base64 para não depender de internet.
+
+### Quando usar cada abordagem
+
+| Situação | Recomendação |
+|----------|----------------|
+| App gera cupom e já tem o logo em memória/bytes | `data:image/...;base64,...` no XML (**sem** `-assets`) |
+| Layouts fixos em disco com pastinha de logos | arquivo relativo + `-assets` |
+| Logo hospedado só na web | URL `https://…` (menos ideal offline) |
+| Cupom só texto | sem `<Image>`, sem `-assets` |
+
+Referência do motor XML: [`cups-template/README.md`](cups-template/README.md).
 
 ## Integração (produção)
 
@@ -215,18 +348,27 @@ Página: [Releases](https://github.com/yurih567/cups-utils/releases)
 
 ### Usar o binário da Release
 
-Baixe o arquivo da sua plataforma na Release e coloque junto do XML (e da pasta `assets`, se o layout usar imagens).
+Baixe o arquivo da sua plataforma na Release. Se o XML usar só `data:` ou for só texto, **não precisa** de pasta `assets`.
 
 **Linux / macOS**
 
 ```bash
-chmod +x cups-print-linux-amd64   # ou darwin-arm64, etc.
+chmod +x cups-print-linux-amd64
 
+# sem assets (texto ou data: URI no XML)
+./cups-print-linux-amd64 \
+  -template cupom.xml \
+  -model bematech \
+  -dest 192.168.18.133 \
+  -cut
+
+# com arquivos de imagem relativos
 ./cups-print-linux-amd64 \
   -template cupom.xml \
   -assets ./assets \
   -model bematech \
-  -dest 192.168.18.133
+  -dest 192.168.18.133 \
+  -cut
 ```
 
 Stdin:
@@ -238,7 +380,11 @@ cat cupom.xml | ./cups-print-linux-amd64 -template - -model bematech -dest 192.1
 **Windows (cmd / PowerShell)**
 
 ```bat
-cups-print-windows-amd64.exe -template cupom.xml -assets .\assets -model bematech -dest 192.168.18.133
+REM sem assets
+cups-print-windows-amd64.exe -template cupom.xml -model bematech -dest 192.168.18.133 -cut
+
+REM com pasta de imagens
+cups-print-windows-amd64.exe -template cupom.xml -assets .\assets -model bematech -dest 192.168.18.133 -cut
 ```
 
 **Com Node** (após baixar o binário):

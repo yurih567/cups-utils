@@ -1,0 +1,30 @@
+<Page width="80mm" padding="4">
+  <Column gap="2" align="center">
+
+    <Image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAa0lEQVR42u3bMREAMAwDsVAwf7DpXAqx/s4EtHu2vAEAAMBXktMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmgA8RwEAqOoBjQeXNPrKj3UAAAAASUVORK5CYII=" width="64" height="64" align="center"/>
+
+    <Text align="center" size="18" weight="bold">Demo Burger</Text>
+    <Text align="center" size="12">Logo via data:image/png;base64</Text>
+    <Text align="center" size="11" color="#666666">26/07/2026 12:45</Text>
+
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="12">Produto exemplo</Text>
+      <Text size="12" align="right">19,90</Text>
+    </Row>
+
+    <Divider char="-"/>
+
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Total</Text>
+      <Text size="14" weight="bold" align="right">19,90</Text>
+    </Row>
+
+    <Spacer height="6"/>
+
+    <Text align="center" size="11">NÃO É DOCUMENTO FISCAL</Text>
+    <Divider char="="/>
+
+  </Column>
+</Page>
