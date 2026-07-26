@@ -27,6 +27,9 @@ func TestUnknownModel(t *testing.T) {
 
 func TestGenericCommands(t *testing.T) {
 	d := drivers.MustGet("generic")
+	if d.PrintWidthDots() != 576 {
+		t.Fatalf("PrintWidthDots = %d want 576", d.PrintWidthDots())
+	}
 	if !bytes.Equal(d.Init(), []byte{0x1b, '@'}) {
 		t.Fatalf("Init = %v", d.Init())
 	}
@@ -60,6 +63,9 @@ func TestEpsonMatchesGenericCommands(t *testing.T) {
 
 func TestEpsonCommands(t *testing.T) {
 	d := drivers.MustGet("epson")
+	if d.PrintWidthDots() != 512 {
+		t.Fatalf("PrintWidthDots = %d want 512", d.PrintWidthDots())
+	}
 	if !bytes.Equal(d.Init(), []byte{0x1b, '@'}) {
 		t.Fatalf("Init = %v", d.Init())
 	}

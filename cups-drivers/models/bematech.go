@@ -16,6 +16,9 @@ type Bematech struct {
 func (Bematech) ID() string   { return "bematech" }
 func (Bematech) Name() string { return "Bematech (ESC/POS graphics)" }
 
+// PrintWidthDots is 576 for typical Bematech 80mm MP models at 203 DPI.
+func (Bematech) PrintWidthDots() int { return 576 }
+
 // Cut: ESC i (full), ESC m (partial) — classic ESC/Bema.
 func (Bematech) Cut(partial bool) []byte {
 	if partial {

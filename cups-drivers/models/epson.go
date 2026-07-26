@@ -14,4 +14,7 @@ type Epson struct {
 func (Epson) ID() string   { return "epson" }
 func (Epson) Name() string { return "Epson ESC/POS" }
 
+// PrintWidthDots matches many Epson TM 80mm models (512 dots / ~64mm printable).
+func (Epson) PrintWidthDots() int { return 512 }
+
 var _ drivers.Driver = Epson{}

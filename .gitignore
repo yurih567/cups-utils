@@ -5,3 +5,10 @@
 *.bin
 /tmp/
 **/dist/
+cups-examples/out/
+cups-examples/bin/
+*.png
+.env
+**/.env
+!.env.example
+!**/.env.example

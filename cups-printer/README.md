@@ -49,7 +49,7 @@ PHP/Node/etc. só precisam do binário da plataforma alvo e spawnar o processo.
 ./print \
   -template ../cups-template/templates/receipt.xml \
   -model epson \
-  -dest 'cups:MinhaImpressora' \
+  -dest MinhaImpressora \
   -beep 1 \
   -drawer \
   -assets ../cups-template/assets
@@ -58,7 +58,7 @@ PHP/Node/etc. só precisam do binário da plataforma alvo e spawnar o processo.
 Stdin:
 
 ```bash
-cat cupom.xml | ./print -template - -model bematech -dest 'tcp://192.168.0.10:9100' -beep 1
+cat cupom.xml | ./print -template - -model bematech -dest 192.168.0.10 -beep 1
 ```
 
 Debug (bytes no terminal):
@@ -73,7 +73,7 @@ Debug (bytes no terminal):
 |------|---------|-----------|
 | `-template` | `-` | Path do XML ou `-` (stdin) |
 | `-model` | `generic` | ID do driver (`generic`, `epson`, `bematech`, …) |
-| `-dest` | obrigatório | Destino da impressora |
+| `-dest` | obrigatório | Identificador da impressora (protocolo auto) |
 | `-beep` | `0` | Vezes do apito (`0` = off) |
 | `-drawer` | `false` | Abrir gaveta |
 | `-drawer-pin` | `0` | Pino da gaveta (Epson: 0 ou 1) |
@@ -86,14 +86,20 @@ Fonte fixa embutida no `cups-template` (estilo Arial). Não há flag `-fonts`.
 
 ## Destinos (`-dest`)
 
-| Forma | Exemplo |
-|-------|---------|
-| Fila CUPS | `cups:TM20` ou `TM20` |
-| Rede JetDirect | `tcp://192.168.0.10:9100` ou `192.168.0.10:9100` |
-| Device/arquivo | `file:/dev/usb/lp0` ou `/dev/usb/lp0` |
-| Debug | `stdout` ou `-` |
+O chamador passa só o identificador — o protocolo é detectado automaticamente:
 
-Filas CUPS sempre usam `lp -d Nome -o raw` (payload ESC/POS completo).
+| Valor | Resolve para |
+|-------|----------------|
+| `TM20` | fila CUPS |
+| `192.168.0.10` | TCP JetDirect `:9100` |
+| `192.168.0.10:9100` | TCP |
+| `printer.local:9100` | TCP |
+| `/dev/usb/lp0` | device/arquivo |
+| `stdout` ou `-` | stdout (debug) |
+
+Esquemas explícitos (`tcp://…`, `cups:…`, `file:…`) continuam válidos.
+
+Configuração de ambiente (`.env`) fica no serviço que chama o `cups-printer`, não neste módulo.
 
 ## Biblioteca
 
@@ -107,7 +113,7 @@ import (
 err := printer.Print(context.Background(), job.Job{
     XML:    xmlBytes,
     Model:  "generic",
-    Dest:   "cups:MinhaImpressora",
+    Dest:   "192.168.0.10", // bare IP → TCP :9100
     Beep:   1,
     Drawer: true,
     Cut:    true,

@@ -1,0 +1,154 @@
+<Page width="80mm" padding="4">
+  <Column gap="2" align="center">
+
+    <Image src="logo.svg" width="72" align="center"/>
+
+    <Text align="center" size="19" weight="bold">Grand Chef Burger</Text>
+    <Text align="center" size="12">O sabor que conquista</Text>
+    <Text align="center" size="11">Rua das Flores, Nº 120 - Centro</Text>
+    <Text align="center" size="11">Fone: (11) 3456-7890 - (11) 99876-5432</Text>
+    <Text align="center" size="11">CNPJ: 12.345.678/0001-90</Text>
+    <Text align="center" size="11">São Paulo - SP</Text>
+
+    <Spacer height="4"/>
+
+    <Row justify="between">
+      <Text size="12" weight="bold">Data: 26/07/2026 10:30</Text>
+      <Text size="12" weight="bold" align="right">Pedido: B7K3</Text>
+    </Row>
+    <Text size="12" weight="bold">Integração: iFood</Text>
+    <Text size="12" weight="bold">Pedido integração: IFD-445566</Text>
+
+    <Spacer height="4"/>
+
+    <Text align="center" size="13">Relatório para Entrega</Text>
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="11">Descrição</Text>
+      <Text size="11" align="right">Preço  Qtd    Total</Text>
+    </Row>
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="11">X-Burguer Artesanal</Text>
+      <Text size="11" align="right">29,90  2x    59,80</Text>
+    </Row>
+    <Text size="10" color="#666666">  (Sem cebola, ponto da carne mal passado)</Text>
+
+    <Row justify="between">
+      <Text size="11">Batata Frita M</Text>
+      <Text size="11" align="right">14,90  1x    14,90</Text>
+    </Row>
+
+    <Row justify="between">
+      <Text size="11">Refrigerante Lata</Text>
+      <Text size="11" align="right">8,00  2x    16,00</Text>
+    </Row>
+    <Text size="10" color="#666666">  (Coca-Cola)</Text>
+
+    <Divider char="-"/>
+
+    <Row justify="between">
+      <Text size="12">Produtos</Text>
+      <Text size="12" align="right">90,70</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="12">Comissão</Text>
+      <Text size="12" align="right">4,50</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Text align="center" size="12"> Serviços e Taxas </Text>
+
+    <Row justify="between">
+      <Text size="11">Taxa de entrega</Text>
+      <Text size="11" align="right">8,00</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="11">Embalagem</Text>
+      <Text size="11" align="right">2,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Row justify="between">
+      <Text size="12">Serviços</Text>
+      <Text size="12" align="right">10,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="12" weight="bold">Subtotal</Text>
+      <Text size="12" weight="bold" align="right">105,20</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="12">Descontos</Text>
+      <Text size="12" align="right">-10,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Total</Text>
+      <Text size="14" weight="bold" align="right">95,20</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Text align="center" size="12"> Pagamentos </Text>
+
+    <Row justify="between">
+      <Text size="11">Visa Crédito</Text>
+      <Text size="11" align="right">50,00</Text>
+    </Row>
+    <Row justify="between">
+      <Text size="11">Pix: chave aleatória</Text>
+      <Text size="11" align="right">20,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Pago</Text>
+      <Text size="14" weight="bold" align="right">70,00</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Text align="center" size="12"> Pagar na entrega </Text>
+
+    <Row justify="between">
+      <Text size="11">Dinheiro: troco p/ 50</Text>
+      <Text size="11" align="right">25,20</Text>
+    </Row>
+
+    <Divider char="-"/>
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">A Pagar</Text>
+      <Text size="14" weight="bold" align="right">25,20</Text>
+    </Row>
+    <Row justify="between" fill="·" fill-weight="bold">
+      <Text size="14" weight="bold">Saldo</Text>
+      <Text size="14" weight="bold" align="right">0,00</Text>
+    </Row>
+
+    <Spacer height="4"/>
+
+    <Row justify="between">
+      <Text size="12">Atendente: João</Text>
+      <Text size="12" align="right">Entregador(a): Carlos</Text>
+    </Row>
+
+    <Spacer height="4"/>
+
+    <Text align="center" size="13">Informações para Entrega</Text>
+    <Divider char="-"/>
+
+    <Text size="14" weight="bold">Cliente: Maria Silva</Text>
+    <Text size="12">Observação: Entregar sem talheres, tocar a campainha</Text>
+    <Text size="14" weight="bold">Celular: (11) 98765-4321</Text>
+    <Text size="14" weight="bold">Endereço: Av. Paulista, Nº 1578 - Bela Vista - Apto 42, Bloco B</Text>
+
+    <Spacer height="4"/>
+
+    <Text align="center" size="11">NÃO É DOCUMENTO FISCAL</Text>
+    <Divider char="="/>
+
+  </Column>
+</Page>

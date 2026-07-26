@@ -18,6 +18,9 @@ type Generic struct{}
 func (Generic) ID() string   { return "generic" }
 func (Generic) Name() string { return "Generic ESC/POS" }
 
+// PrintWidthDots is the common 80mm-paper printable width at 203 DPI (72mm head).
+func (Generic) PrintWidthDots() int { return 576 }
+
 func (Generic) Init() []byte        { return []byte{esc, '@'} }
 func (Generic) ClearBuffer() []byte { return []byte{esc, '@'} }
 func (Generic) LineEnd() []byte     { return []byte{lf} }

@@ -15,6 +15,7 @@ import (
 	"cups-template/engine/dom"
 	"cups-template/engine/font"
 	"cups-template/engine/parser"
+	"cups-template/engine/units"
 	escposrenderer "cups-template/renderers/escpos"
 	pngrenderer "cups-template/renderers/png"
 )
@@ -43,6 +44,17 @@ func main() {
 	doc, err := parseTemplate(*templatePath)
 	must(err)
 
+	var drv drivers.Driver
+	if fmtName == "escpos" {
+		drv, err = drivers.Get(strings.ToLower(strings.TrimSpace(*model)))
+		must(err)
+		printDots := drv.PrintWidthDots()
+		if printDots <= 0 {
+			printDots = escposrenderer.DefaultMaxWidthDots
+		}
+		doc.Root.Style.Width = units.Mm(float64(printDots) * 25.4 / *dpi)
+	}
+
 	tree, err := engine.Layout(doc, engine.Options{
 		DPI:           *dpi,
 		Fonts:         fonts,
@@ -59,12 +71,11 @@ func main() {
 		img := pngrenderer.NewRenderer(fonts).Render(commands)
 		must(png.Encode(out, img))
 	case "escpos":
-		drv, err := drivers.Get(strings.ToLower(strings.TrimSpace(*model)))
-		must(err)
 		data, err := escposrenderer.NewRenderer(fonts, escposrenderer.Options{
-			Driver:    drv,
-			Threshold: 128,
-			FeedLines: 3,
+			Driver:       drv,
+			Threshold:    128,
+			FeedLines:    3,
+			MaxWidthDots: drv.PrintWidthDots(),
 		}).Render(commands)
 		must(err)
 		_, err = out.Write(data)

@@ -8,6 +8,7 @@ import (
 	"cups-template/engine"
 	"cups-template/engine/font"
 	"cups-template/engine/parser"
+	"cups-template/engine/units"
 	escposrenderer "cups-template/renderers/escpos"
 )
 
@@ -20,6 +21,9 @@ type Options struct {
 }
 
 // Render parses template XML and returns the ESC/POS body (no cut/beep/drawer).
+//
+// Page width from the XML (e.g. 80mm paper) is overridden to the driver's
+// printable head width so content is not clipped on the right edge.
 func Render(xml []byte, opts Options) ([]byte, error) {
 	if opts.Driver == nil {
 		return nil, fmt.Errorf("render: driver is required")
@@ -43,6 +47,15 @@ func Render(xml []byte, opts Options) ([]byte, error) {
 		return nil, fmt.Errorf("render: parse xml: %w", err)
 	}
 
+	printDots := opts.Driver.PrintWidthDots()
+	if printDots <= 0 {
+		printDots = escposrenderer.DefaultMaxWidthDots
+	}
+	// Layout in printable dots converted back to mm at this DPI.
+	// (80mm paper ≠ printable width — heads are typically ~72mm / 576 dots.)
+	printableMm := float64(printDots) * 25.4 / dpi
+	doc.Root.Style.Width = units.Mm(printableMm)
+
 	tree, err := engine.Layout(doc, engine.Options{
 		DPI:           dpi,
 		Fonts:         fonts,
@@ -54,9 +67,10 @@ func Render(xml []byte, opts Options) ([]byte, error) {
 
 	commands := engine.BuildDisplayList(tree)
 	body, err := escposrenderer.NewRenderer(fonts, escposrenderer.Options{
-		Driver:    opts.Driver,
-		Threshold: 128,
-		FeedLines: feed,
+		Driver:       opts.Driver,
+		Threshold:    128,
+		FeedLines:    feed,
+		MaxWidthDots: printDots,
 	}).Render(commands)
 	if err != nil {
 		return nil, fmt.Errorf("render: escpos: %w", err)
