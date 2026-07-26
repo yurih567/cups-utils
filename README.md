@@ -154,7 +154,7 @@ Exemplos em [`cups-examples/layouts/`](cups-examples/layouts/):
 | Layout | Descrição |
 |--------|-----------|
 | `simple.xml` | Curto, sem imagem (não precisa de `-assets`) |
-| `grandchef.xml` | Cupom simples com logo |
+| `demo.xml` | Cupom simples com logo |
 | `receipt.xml` | Fechamento de pedido |
 | `delivery.xml` | Relatório para entrega |
 

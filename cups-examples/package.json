@@ -9,7 +9,7 @@
   "scripts": {
     "render:receipt": "node js/render-png.js receipt",
     "render:delivery": "node js/render-png.js delivery",
-    "render:grandchef": "node js/render-png.js grandchef",
+    "render:demo": "node js/render-png.js demo",
     "print:receipt": "node js/print-tcp.js receipt",
     "print:delivery": "node js/print-tcp.js delivery",
     "print:dynamic": "node js/print-dynamic.js"

@@ -17,7 +17,7 @@ cups-examples/
 ├── layouts/
 │   ├── receipt.xml   # fechamento de pedido
 │   ├── delivery.xml  # relatório para entrega
-│   └── grandchef.xml # cupom simples
+│   └── demo.xml # cupom simples
 ├── js/
 │   ├── cups.js           # helpers (spawn dos binários)
 │   ├── render-png.js     # gera PNG a partir de um layout
@@ -64,7 +64,7 @@ Os scripts JS usam `bin/cups-print` automaticamente (ou `go run` se ainda não e
 |---------|-----|
 | `layouts/receipt.xml` | Fechamento de pedido (mesa / senha) |
 | `layouts/delivery.xml` | Relatório para entrega (endereço / telefone) |
-| `layouts/grandchef.xml` | Exemplo mínimo |
+| `layouts/demo.xml` | Exemplo mínimo |
 
 ## JavaScript
 

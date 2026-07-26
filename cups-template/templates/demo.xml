@@ -1,10 +1,10 @@
 <Page width="80mm" padding="8">
   <Column gap="8" align="center">
 
-    <Image src="grandchef-logo.svg" width="180" height="72" align="center"/>
+    <Image src="logo.svg" width="72" height="72" align="center"/>
 
     <Text align="center" size="20" weight="bold">Pedido #4521</Text>
-    <Text align="center" size="12" color="#666666">Mesa 12 · 26/07/2026 10:50</Text>
+    <Text align="center" size="12" color="#666666">Mesa 12 · 26/07/2026 15:05</Text>
 
     <Divider char="-"/>
 
@@ -17,20 +17,20 @@
       <Text align="right">6,00</Text>
     </Row>
     <Row justify="between">
-      <Text>Sobremesa do chef</Text>
+      <Text>Sobremesa da casa</Text>
       <Text align="right">18,50</Text>
     </Row>
 
     <Divider char="="/>
 
-    <Row justify="between" fill="·" fill-weight="bold">
+    <Row justify="between">
       <Text weight="bold">Total</Text>
       <Text weight="bold" align="right">73,40</Text>
     </Row>
 
     <Spacer height="10"/>
 
-    <Text align="center" size="11" color="#666666">Obrigado por escolher a GrandChef</Text>
+    <Text align="center" size="11" color="#666666">Obrigado pela preferência</Text>
 
   </Column>
 </Page>

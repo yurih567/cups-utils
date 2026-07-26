@@ -56,7 +56,7 @@ O modo padrão é pipe: XML no stdin, bytes no stdout.
 
 ```bash
 # Job CUPS (qualquer impressora na fila)
-./render -format cups < templates/grandchef.xml > cupom.png
+./render -format cups < templates/demo.xml > cupom.png
 lp -d NomeDaImpressora cupom.png
 
 # Pipe direto para o CUPS
@@ -70,7 +70,7 @@ lp -d NomeDaImpressora cupom.png
 Equivalente com `go run`:
 
 ```bash
-cat templates/grandchef.xml | go run ./cmd/render -format cups > cupom.png
+cat templates/demo.xml | go run ./cmd/render -format cups > cupom.png
 cat templates/receipt.xml   | go run ./cmd/render -format escpos > cupom.bin
 ```
 
@@ -78,7 +78,7 @@ cat templates/receipt.xml   | go run ./cmd/render -format escpos > cupom.bin
 
 ```bash
 ./render \
-  -template templates/grandchef.xml \
+  -template templates/demo.xml \
   -format cups \
   -out cupom.png
 
@@ -200,8 +200,8 @@ Helper em `examples/preview` para gerar arquivos rápido durante o desenvolvimen
 
 ```bash
 go run ./examples/preview \
-  -template templates/grandchef.xml \
-  -out examples/preview/grandchef.png
+  -template templates/demo.xml \
+  -out examples/preview/demo.png
 
 go run ./examples/preview \
   -format escpos \

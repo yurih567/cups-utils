@@ -3,8 +3,8 @@
 
     <Image src="logo.svg" width="72" align="center"/>
 
-    <Text align="center" size="19" weight="bold">Grand Chef Burger</Text>
-    <Text align="center" size="12">O sabor que conquista</Text>
+    <Text align="center" size="19" weight="bold">Demo Burger</Text>
+    <Text align="center" size="12">Exemplo de cupom térmico</Text>
     <Text align="center" size="11">Rua das Flores, Nº 120 - Centro</Text>
     <Text align="center" size="11">Fone: (11) 3456-7890 - (11) 99876-5432</Text>
     <Text align="center" size="11">CNPJ: 12.345.678/0001-90</Text>

@@ -1,7 +1,7 @@
 <Page width="80mm" padding="4">
   <Column gap="2" align="center">
 
-    <Text align="center" size="18" weight="bold">Grand Chef Burger</Text>
+    <Text align="center" size="18" weight="bold">Demo Burger</Text>
     <Text align="center" size="12">Pedido #1001</Text>
     <Text align="center" size="11" color="#666666">26/07/2026 12:15</Text>
 

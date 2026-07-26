@@ -51,7 +51,7 @@ function escapeXml(value) {
 }
 
 const order = {
-  company: "Grand Chef Burger",
+  company: "Demo Burger",
   subtitle: "Pedido gerado em JavaScript",
   datetime: "26/07/2026 10:50",
   code: "JS01",
